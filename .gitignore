@@ -1,0 +1,5 @@
+/project/Library/
+/project/Logs/
+/project/UserSettings/
+*.vsconfig
+/project/*.sln
