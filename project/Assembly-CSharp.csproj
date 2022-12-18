@@ -38,6 +38,7 @@
   <ItemGroup>
      <Compile Include="Assets\StarterAssets\Mobile\Scripts\VirtualInputs\UIVirtualButton.cs" />
      <Compile Include="Assets\StarterAssets\InputSystem\StarterAssetsInputs.cs" />
+     <Compile Include="Assets\Scripts\ChangeScene.cs" />
      <Compile Include="Assets\StarterAssets\FirstPersonController\Scripts\FirstPersonController.cs" />
      <Compile Include="Assets\StarterAssets\Mobile\Scripts\CanvasInputs\UICanvasControllerInput.cs" />
      <Compile Include="Assets\StarterAssets\Mobile\Scripts\Utilities\MobileDisableAutoSwitchControls.cs" />
@@ -45,7 +46,7 @@
      <Compile Include="Assets\StarterAssets\Mobile\Scripts\VirtualInputs\UIVirtualTouchZone.cs" />
      <Compile Include="Assets\StarterAssets\FirstPersonController\Scripts\BasicRigidBodyPush.cs" />
      <Compile Include="Assets\StarterAssets\TutorialInfo\Scripts\Readme.cs" />
-     <Compile Include="Assets\Scripts\ChangeScene.cs" />
+     <Compile Include="Assets\Scripts\HeightsRandomizer.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
