@@ -72,6 +72,12 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (transform.position.y < -10)
+        {
+            transform.position = new Vector3(0, 1, -3);
+        }
+
+
         if (Input.GetKeyDown(KeyCode.I))
         {
             input.ActivateInputField();
@@ -82,7 +88,6 @@ public class Player : MonoBehaviour
             input.DeactivateInputField();
             Time.timeScale = 1;
 
-            //check what object is below me
             RaycastHit hit;
 
             if (Physics.Raycast(transform.position, Vector3.down, out hit, 1f))
@@ -91,10 +96,15 @@ public class Player : MonoBehaviour
                 string capital = input.text.ToLower();
                 if (capitals[state].ToString().ToLower() == capital)
                 {
+                    if (hit.collider.gameObject.GetComponent<Renderer>().material.color == Color.green)
+                    {
+                        return;
+                    }
                     correctCount++;
                     correct.text = "States Correct: " + correctCount;
                     healthCount = Mathf.Min(healthCount + 10, 100);
                     health.text = "Health: " + healthCount;
+                    hit.collider.gameObject.GetComponent<Renderer>().material.color = Color.green;
                 }
                 else
                 {
