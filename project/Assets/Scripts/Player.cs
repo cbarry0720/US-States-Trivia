@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -72,9 +73,16 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(healthCount <= 0)
+        {
+            SceneManager.LoadScene("GameOver");
+        }
+
         if (transform.position.y < -10)
         {
             transform.position = new Vector3(0, 1, -3);
+            healthCount = Mathf.Max(0, healthCount - 40);
+            health.text = "Health: " + healthCount;
         }
 
 
