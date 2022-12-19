@@ -74,27 +74,25 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (health.text.Substring(8) != healthCount.ToString())
+        {
+            healthCount = int.Parse(health.text.Substring(8));
+        }
         RaycastHit hit;
 
         if (Physics.Raycast(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), Vector3.down, out hit, 10f))
         {
-            state_text.text = hit.collider.name;
+            state_text.text = hit.collider.name == "PlayerArmature" ? "" : hit.collider.name;
         }
         else
         {
             state_text.text = "";
         }
 
-        if (healthCount <= 0)
+        if (healthCount <= 0 || this.gameObject.transform.position.y < -10)
         {
             SceneManager.LoadScene("GameOver");
         }
-
-        if (this.gameObject.transform.position.y < -10)
-        {
-            healthCount = Mathf.Max(0, healthCount - 100);
-        }
-
 
         if (Input.GetKeyDown(KeyCode.I))
         {
