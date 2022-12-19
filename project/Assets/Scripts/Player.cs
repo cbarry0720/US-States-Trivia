@@ -90,11 +90,9 @@ public class Player : MonoBehaviour
             SceneManager.LoadScene("GameOver");
         }
 
-        if (transform.position.y < -10)
+        if (this.gameObject.transform.position.y < -10)
         {
-            transform.position = new Vector3(0, 1, -3);
-            healthCount = Mathf.Max(0, healthCount - 40);
-            health.text = "Health: " + healthCount;
+            healthCount = Mathf.Max(0, healthCount - 100);
         }
 
 
