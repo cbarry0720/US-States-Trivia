@@ -3,3 +3,4 @@
 /project/UserSettings/
 *.vsconfig
 /project/*.sln
+/project/Temp/
