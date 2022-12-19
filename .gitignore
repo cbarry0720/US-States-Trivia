@@ -4,3 +4,6 @@
 *.vsconfig
 /project/*.sln
 /project/Temp/
+/project/.vs/
+/project/obj/
+/project/.vscode/
