@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     public TMP_Text correct;
     public TMP_Text incorrect;
     public TMP_Text health;
+    public TMP_Text state_text;
     private int correctCount = 0;
     private int incorrectCount = 0;
     private int healthCount = 100;
@@ -73,7 +74,18 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(healthCount <= 0)
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, 1f))
+        {
+            state_text.text = hit.collider.name;
+        }
+        else
+        {
+            state_text.text = "";
+        }
+
+        if (healthCount <= 0)
         {
             SceneManager.LoadScene("GameOver");
         }
@@ -95,8 +107,6 @@ public class Player : MonoBehaviour
         {
             input.DeactivateInputField();
             Time.timeScale = 1;
-
-            RaycastHit hit;
 
             if (Physics.Raycast(transform.position, Vector3.down, out hit, 1f))
             {
