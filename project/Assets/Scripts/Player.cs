@@ -76,7 +76,7 @@ public class Player : MonoBehaviour
     {
         RaycastHit hit;
 
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, 1f))
+        if (Physics.Raycast(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), Vector3.down, out hit, 10f))
         {
             state_text.text = hit.collider.name;
         }
@@ -108,7 +108,7 @@ public class Player : MonoBehaviour
             input.DeactivateInputField();
             Time.timeScale = 1;
 
-            if (Physics.Raycast(transform.position, Vector3.down, out hit, 1f))
+            if (Physics.Raycast(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), Vector3.down, out hit, 10f))
             {
                 string state = hit.collider.gameObject.name;
                 string capital = input.text.ToLower();
