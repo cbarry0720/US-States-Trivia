@@ -11,10 +11,14 @@ public class Player : MonoBehaviour
     public TMP_Text incorrect;
     public TMP_Text health;
     public TMP_Text state_text;
+    public float jumpBoost;
     private int correctCount = 0;
     private int incorrectCount = 0;
     private int healthCount = 100;
     private Hashtable capitals = new Hashtable();
+
+    private float defaultJumpHeight;
+    private float boostedJumpHeight;
 
     // Start is called before the first frame update
     void Start()
@@ -69,6 +73,9 @@ public class Player : MonoBehaviour
         capitals.Add("West Virginia", "Charleston");
         capitals.Add("Wisconsin", "Madison");
         capitals.Add("Wyoming", "Cheyenne");
+
+        defaultJumpHeight = gameObject.GetComponent<StarterAssets.ThirdPersonController>().JumpHeight;
+        boostedJumpHeight = defaultJumpHeight + jumpBoost;
     }
 
     // Update is called once per frame
@@ -83,6 +90,18 @@ public class Player : MonoBehaviour
         if (Physics.Raycast(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), Vector3.down, out hit, 10f))
         {
             state_text.text = hit.collider.name == "PlayerArmature" ? "" : hit.collider.name;
+
+            if (hit.collider.gameObject.GetComponent<Renderer>().material.color == Color.green)
+            {
+                if(hit.collider.gameObject.tag == "boost") 
+                {
+                    gameObject.GetComponent<StarterAssets.ThirdPersonController>().JumpHeight = boostedJumpHeight;
+                } 
+            }
+            else
+            {
+                gameObject.GetComponent<StarterAssets.ThirdPersonController>().JumpHeight = defaultJumpHeight;
+            }
         }
         else
         {
