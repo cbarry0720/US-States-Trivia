@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class Player : MonoBehaviour
     public TMP_Text correct;
     public TMP_Text incorrect;
     public TMP_Text health;
+    public TMP_Text state_text;
     private int correctCount = 0;
     private int incorrectCount = 0;
     private int healthCount = 100;
@@ -72,9 +74,27 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        RaycastHit hit;
+
+        if (Physics.Raycast(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), Vector3.down, out hit, 10f))
+        {
+            state_text.text = hit.collider.name;
+        }
+        else
+        {
+            state_text.text = "";
+        }
+
+        if (healthCount <= 0)
+        {
+            SceneManager.LoadScene("GameOver");
+        }
+
         if (transform.position.y < -10)
         {
             transform.position = new Vector3(0, 1, -3);
+            healthCount = Mathf.Max(0, healthCount - 40);
+            health.text = "Health: " + healthCount;
         }
 
 
@@ -88,9 +108,7 @@ public class Player : MonoBehaviour
             input.DeactivateInputField();
             Time.timeScale = 1;
 
-            RaycastHit hit;
-
-            if (Physics.Raycast(transform.position, Vector3.down, out hit, 1f))
+            if (Physics.Raycast(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), Vector3.down, out hit, 10f))
             {
                 string state = hit.collider.gameObject.name;
                 string capital = input.text.ToLower();
