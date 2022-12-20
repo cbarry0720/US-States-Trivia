@@ -37,7 +37,7 @@ public class Alien : MonoBehaviour
             if (orbs[i] != null)
             {
                 orb_times[i] += Time.deltaTime;
-                if (orb_times[i] > 10)
+                if (orb_times[i] > 16)
                 {
                     Destroy(orbs[i]);
                     orbs[i] = null;
@@ -80,6 +80,12 @@ public class Alien : MonoBehaviour
                                 hit.collider.gameObject.GetComponent<Player>().takeDamage,
                                 hit.collider.gameObject.GetComponent<Player>().vol
                             );
+                        }
+                        else if (hit.collider.name != "alien character")
+                        {
+                            Destroy(orb);
+                            orbs[i] = null;
+                            orb_times[i] = 0;
                         }
                     }
                 }
