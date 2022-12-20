@@ -138,6 +138,9 @@ public class Player : MonoBehaviour
         if (healthCount <= 0 || this.gameObject.transform.position.y < -20)
         {
             SceneManager.LoadScene("GameOver");
+        }else if(correctCount == 50)
+        {
+            SceneManager.LoadScene("Winner");
         }
 
         if (Input.GetKeyDown(KeyCode.I))
