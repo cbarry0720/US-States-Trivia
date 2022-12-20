@@ -110,6 +110,14 @@ namespace StarterAssets
 
         private bool _hasAnimator;
 
+
+        // Audio Stuff
+        public AudioSource playerAudio;
+        public AudioClip wah; // Regular Jump
+        public AudioClip yahoo; // Boost Jump
+        public float vol;
+        private bool jumpSoundPlaying;
+
         private bool IsCurrentDeviceMouse
         {
             get
@@ -310,6 +318,24 @@ namespace StarterAssets
                     {
                         _animator.SetBool(_animIDJump, true);
                     }
+
+                    // Audio Clips
+                    if(JumpHeight == 2f)
+                    {
+                        if(!jumpSoundPlaying)
+                        {
+                            playerAudio.PlayOneShot(wah, vol);
+                            jumpSoundPlaying = true;
+                        }
+                    }
+                    else if(JumpHeight == 5f)
+                    {
+                        if(!jumpSoundPlaying) 
+                        {
+                            playerAudio.PlayOneShot(yahoo, vol);
+                            jumpSoundPlaying = true;
+                        }
+                    }
                 }
 
                 // jump timeout
@@ -320,6 +346,7 @@ namespace StarterAssets
             }
             else
             {
+                jumpSoundPlaying = false;
                 // reset the jump timeout timer
                 _jumpTimeoutDelta = JumpTimeout;
 
