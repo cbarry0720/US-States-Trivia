@@ -14,9 +14,14 @@ public class Alien : MonoBehaviour
     private float[] orb_times = new float[10];
     private Animator animator;
 
+    public AudioClip plasmaShot;
+    public float vol = 3f;
+    private AudioSource source;
+
     // Start is called before the first frame update
     void Start()
     {
+        source = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
     }
 
@@ -49,6 +54,7 @@ public class Alien : MonoBehaviour
                 if (orbs[i] == null)
                 {
                     orbs[i] = Instantiate(orb, transform.position, Quaternion.identity);
+                    source.PlayOneShot(plasmaShot, vol);
                     break;
                 }
             }
@@ -69,6 +75,11 @@ public class Alien : MonoBehaviour
                             Destroy(orb);
                             orbs[i] = null;
                             health.text = "Health: " + (int.Parse(health.text.Substring(8)) - 5);
+
+                            hit.collider.gameObject.GetComponent<AudioSource>().PlayOneShot(
+                                hit.collider.gameObject.GetComponent<Player>().takeDamage,
+                                hit.collider.gameObject.GetComponent<Player>().vol
+                            );
                         }
                     }
                 }

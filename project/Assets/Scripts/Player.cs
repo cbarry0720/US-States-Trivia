@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     public TMP_Text health;
     public TMP_Text state_text;
     public float jumpBoost;
+    public float vol;
     private int correctCount = 0;
     private int incorrectCount = 0;
     private int healthCount = 100;
@@ -19,6 +20,17 @@ public class Player : MonoBehaviour
 
     private float defaultJumpHeight;
     private float boostedJumpHeight;
+    
+    // Sound Effects
+    public AudioClip fallingToDeath; // Mario "Waaaaahhhhh"
+    public AudioClip takeDamage; // Mario ooooff or damage sound from mario
+    public AudioClip guessedCorrectly; // Mario red coin sound
+    public AudioClip guessedIncorrectly; // Mario oof sound
+    public AudioClip alienShot;
+
+    public AudioSource source;
+
+    private bool fallingPlaying = false;
 
     // Start is called before the first frame update
     void Start()
@@ -76,6 +88,8 @@ public class Player : MonoBehaviour
 
         defaultJumpHeight = gameObject.GetComponent<StarterAssets.ThirdPersonController>().JumpHeight;
         boostedJumpHeight = defaultJumpHeight + jumpBoost;
+
+        source = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -90,17 +104,21 @@ public class Player : MonoBehaviour
         if (Physics.Raycast(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), Vector3.down, out hit, 10f))
         {
             state_text.text = hit.collider.name == "PlayerArmature" ? "" : hit.collider.name;
+            GameObject floor = hit.collider.gameObject;
 
-            if (hit.collider.gameObject.GetComponent<Renderer>().material.color == Color.green)
+            if (floor != null && hit.collider.name != "PlayerArmature") 
             {
-                if(hit.collider.gameObject.tag == "boost") 
+                if (floor.GetComponent<Renderer>().material.color == Color.green)
                 {
-                    gameObject.GetComponent<StarterAssets.ThirdPersonController>().JumpHeight = boostedJumpHeight;
-                } 
-            }
-            else
-            {
-                gameObject.GetComponent<StarterAssets.ThirdPersonController>().JumpHeight = defaultJumpHeight;
+                    if(floor.tag == "boost") 
+                    {
+                        gameObject.GetComponent<StarterAssets.ThirdPersonController>().JumpHeight = boostedJumpHeight;
+                    } 
+                }
+                else
+                {
+                    gameObject.GetComponent<StarterAssets.ThirdPersonController>().JumpHeight = defaultJumpHeight;
+                }
             }
         }
         else
@@ -108,7 +126,16 @@ public class Player : MonoBehaviour
             state_text.text = "";
         }
 
-        if (healthCount <= 0 || this.gameObject.transform.position.y < -10)
+        if(this.gameObject.transform.position.y < 0) 
+        {
+            if(!fallingPlaying) 
+            {
+                source.PlayOneShot(fallingToDeath, vol);
+                fallingPlaying = true;
+            }
+        }
+
+        if (healthCount <= 0 || this.gameObject.transform.position.y < -20)
         {
             SceneManager.LoadScene("GameOver");
         }
@@ -138,6 +165,8 @@ public class Player : MonoBehaviour
                     healthCount = Mathf.Min(healthCount + 10, 100);
                     health.text = "Health: " + healthCount;
                     hit.collider.gameObject.GetComponent<Renderer>().material.color = Color.green;
+
+                    source.PlayOneShot(guessedCorrectly, vol);
                 }
                 else
                 {
@@ -145,6 +174,8 @@ public class Player : MonoBehaviour
                     incorrect.text = "States Incorrect: " + incorrectCount;
                     healthCount = Mathf.Max(healthCount - 10, 0);
                     health.text = "Health: " + healthCount;
+
+                    source.PlayOneShot(guessedIncorrectly, vol);
                 }
             }
         }
