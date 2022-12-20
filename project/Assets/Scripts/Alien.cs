@@ -66,6 +66,11 @@ public class Alien : MonoBehaviour
             {
                 orbs[i].transform.position = Vector3.MoveTowards(orbs[i].transform.position, player.transform.position, orb_speed);
                 RaycastHit hit;
+
+                // Vector3 heading = orbs[i].transform.position - player.transform.position;
+                // float distance = heading.magnitude;
+                // Vector3 direction = heading / distance;
+
                 try
                 {
                     if (Physics.Raycast(new Vector3(orb.transform.position.x, orb.transform.position.y + 1, orb.transform.position.z), Vector3.down, out hit, 1f))
@@ -83,6 +88,7 @@ public class Alien : MonoBehaviour
                         }
                         else if (hit.collider.name != "alien character")
                         {
+                            // Debug.Log("We're hitting a wall");
                             Destroy(orb);
                             orbs[i] = null;
                             orb_times[i] = 0;
@@ -91,6 +97,7 @@ public class Alien : MonoBehaviour
                 }
                 catch (System.NullReferenceException e)
                 {
+                    // Debug.Log(e);
                     continue;
                 }
             }

@@ -417,7 +417,7 @@ MonoBehaviour:
   orb: {fileID: 1537593200154216, guid: 25093a0593dc83043a7bc17ebba0e95d, type: 3}
   health: {fileID: 638143218}
   alien_speed: 0.0025
-  orb_speed: 0.005
+  orb_speed: 0.01
   plasmaShot: {fileID: 8300000, guid: 7942b218b9247f948a508e85989da6c0, type: 3}
   vol: 0.5
 --- !u!82 &66748578
